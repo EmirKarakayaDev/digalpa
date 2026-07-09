@@ -63,11 +63,6 @@
                 </div>
             </div>
 
-            <a href="{{ route('finder.index') }}"
-               class="nav-link text-white/80 hover:text-white text-sm px-3 py-2 rounded transition-colors">
-                Ürün Bulucu
-            </a>
-
             <a href="{{ route('projects.index') }}"
                class="nav-link text-white/80 hover:text-white text-sm px-3 py-2 rounded transition-colors">
                 Referanslar

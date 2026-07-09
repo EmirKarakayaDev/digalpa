@@ -202,6 +202,47 @@
         align-items: center;
     }
 
+    /* Ana sayfa hero'sunun üstünde yüzen, sayfa en üstteyken şeffaf nav
+       (Brief §03: "scroll başlayınca solid arka plana geçer, şeffaflık
+       içerik nav arkasından okunacak şekilde kullanılmaz"). Okunurluk,
+       nav'ın kendisinde değil hero görselinin üst kenarındaki karartma
+       gradyanında sağlanıyor (bkz. home.blade.php .hero-nav-fade). */
+    .nav-wrapper--floating {
+        background-color: transparent;
+        transition: background-color 200ms ease;
+    }
+    .nav-wrapper--floating.is-scrolled {
+        background-color: var(--color-navy);
+    }
+
+    /* Hero, sticky nav'ın normal akıştaki 56px'lik kutusunun ARKASINA
+       (üzerine değil) düştüğü için sayfa scroll=0'dayken nav'ın arkasında
+       hero değil, düz body arka planı görünür. Hero'yu nav yüksekliği
+       kadar yukarı çekip aynısını içeriden telafi ederek hero'nun görsel
+       zemininin gerçekten y=0'dan başlamasını, böylece nav'la baştan
+       itibaren çakışmasını sağlıyoruz. */
+    .hero-under-nav {
+        margin-top: -56px;
+        padding-top: 56px;
+    }
+
+    /* Hero görselinin üst kenarındaki karartma — şeffaf nav'ın arkasında
+       her zaman okunur bir zemin bırakır. */
+    .hero-nav-fade {
+        background: linear-gradient(to bottom, rgba(11, 37, 69, 0.65), rgba(11, 37, 69, 0));
+    }
+
+    /* ── Dil etiketi (Brief §03 — "Şu an TR etiketi", EN eklenince toggle'a
+       dönüşecek genişlik burada şimdiden ayrılıyor) ── */
+    .lang-label {
+        min-width: 30px;
+        text-align: center;
+        font-size: var(--text-label);
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        color: rgba(255, 255, 255, 0.55);
+    }
+
     /* ── Kart ── */
     .card {
         background-color: #fff;

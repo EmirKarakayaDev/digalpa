@@ -1,13 +1,19 @@
 <x-layouts.app title="Digalpa Kimya Sanayi A.Ş. — Yapı Kimyasalları">
 
     {{-- §02 Hero — 560px, sol metin + sağ mini finder, 3 istatistik --}}
-    <section class="relative text-white overflow-hidden" style="min-height: 560px; background-color: var(--color-navy);">
+    {{-- .hero-under-nav: hero'yu sticky nav'ın normal kutusunun arkasına çeker,
+         böylece şeffaf nav sayfa en üstteyken de hero'nun üzerinde durur --}}
+    <section class="hero-under-nav relative text-white overflow-hidden" style="min-height: 560px; background-color: var(--color-navy);">
         @if (!empty($home['home.hero_image']))
         <div class="absolute inset-0"
              style="background-image: url('{{ Storage::url($home['home.hero_image']) }}'); background-size: cover; background-position: center;">
             <div class="absolute inset-0" style="background-color: rgba(11,37,69,0.78);"></div>
         </div>
         @endif
+
+        {{-- Şeffaf nav'ın arkasında her zaman okunur bir zemin bırakan üst karartma (Brief §03) --}}
+        <div class="hero-nav-fade absolute inset-x-0 top-0 h-32 z-[5]" aria-hidden="true"></div>
+
         <div class="container-content py-16 lg:py-20 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
 

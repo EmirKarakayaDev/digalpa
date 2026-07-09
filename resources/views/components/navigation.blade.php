@@ -4,9 +4,12 @@
     $siteSettings = \App\Models\SiteSetting::group('site');
     $logoName = $siteSettings['site.company_name'] ?? 'Digalpa';
     $logoSub  = $siteSettings['site.logo_subtitle'] ?? '';
+    // Nav sadece koyu hero'nun hemen üstünde şeffaf başlayabilir — diğer
+    // tüm sayfalarda içerik nav'ın hemen altından başladığı için solid kalır.
+    $floatingNav = $currentRoute === 'home';
 @endphp
 
-<nav class="nav-wrapper">
+<nav id="site-nav" class="nav-wrapper {{ $floatingNav ? 'nav-wrapper--floating' : '' }}">
     <div class="container-content flex items-center justify-between w-full">
 
         {{-- Logo --}}
@@ -83,6 +86,9 @@
 
         {{-- CTA Butonu --}}
         <div class="hidden lg:flex items-center gap-3">
+            {{-- Dil etiketi — EN eklenince TR/EN toggle'a dönüşecek (Brief §03) --}}
+            <span class="lang-label">TR</span>
+
             <a href="{{ route('finder.index') }}" class="btn btn-finder text-sm py-2">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -196,5 +202,15 @@
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeDrawer();
     });
+
+    // Şeffaf hero nav'ı — scroll başlayınca solid'e döner (Brief §03)
+    var nav = document.getElementById('site-nav');
+    if (nav && nav.classList.contains('nav-wrapper--floating')) {
+        var onScroll = function () {
+            nav.classList.toggle('is-scrolled', window.scrollY > 24);
+        };
+        document.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    }
 }());
 </script>

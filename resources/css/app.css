@@ -3,6 +3,7 @@
 
 /* ─── Tailwind v4 ───────────────────────────────────────────── */
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -311,5 +312,39 @@
     }
     .accordion-item[open] .accordion-chevron {
         transform: rotate(180deg);
+    }
+}
+
+/* ── Zengin metin içeriği (Blog/Ürün/Proje .prose) ──
+   @tailwindcss/typography kendi kurallarını .prose ile birlikte
+   @layer utilities içine yazıyor — Tailwind'in katman sırasında
+   (theme < base < components < utilities) utilities en yüksek
+   öncelikli olduğu için @layer components'e yazılan bir override
+   burayı asla geçemiyordu (H2 700 kalınlıkta kalıp DM Serif Display'in
+   tek ağırlığında "sahte kalın" render oluyordu). Aynı katmana
+   yazılınca brief §02'nin H1/H2 serif/italik/400 kuralı doğru kazanıyor;
+   paragraf/liste boşlukları hâlâ eklentiden geliyor. */
+@layer utilities {
+    .prose :where(h1) {
+        font-family: var(--font-serif);
+        font-size: var(--text-h1);
+        font-style: normal;
+        font-weight: 400;
+    }
+    .prose :where(h2) {
+        font-family: var(--font-serif);
+        font-size: var(--text-h2);
+        font-style: italic;
+        font-weight: 400;
+        color: var(--color-navy);
+    }
+    .prose :where(h3) {
+        font-family: var(--font-sans);
+        font-size: var(--text-h3);
+        font-weight: 500;
+        color: var(--color-navy);
+    }
+    .prose :where(a) {
+        color: var(--color-navy-60);
     }
 }

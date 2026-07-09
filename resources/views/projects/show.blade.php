@@ -77,8 +77,24 @@
             <aside class="lg:w-[35%] shrink-0">
                 <div class="sticky top-[72px] space-y-4">
 
-                    {{-- Kullanılan Ürünler --}}
-                    @if (!empty($project->used_products) && count($project->used_products))
+                    {{-- Kullanılan Ürünler — gerçek ürüne bağlıysa linkli, değilse serbest metin
+                         (Brief §09: "sidebar ürün sayfalarına link veriyor") --}}
+                    @if ($project->products->isNotEmpty())
+                    <div class="border border-gray-100 rounded-sm p-5">
+                        <div class="label-caps mb-3">Kullanılan Ürünler</div>
+                        <ul class="space-y-2">
+                            @foreach ($project->products as $product)
+                            <li>
+                                <a href="{{ route('products.show', $product->slug) }}"
+                                   class="text-sm text-gray-700 hover:text-navy transition-colors flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-navy-40 shrink-0"></span>
+                                    {{ $product->name }}
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @elseif (!empty($project->used_products) && count($project->used_products))
                     <div class="border border-gray-100 rounded-sm p-5">
                         <div class="label-caps mb-3">Kullanılan Ürünler</div>
                         <ul class="space-y-2">

@@ -42,7 +42,7 @@ class ProjectController extends Controller
     {
         $project = ReferenceProject::where('slug', $slug)
             ->where('is_active', true)
-            ->with('segment')
+            ->with(['segment', 'products'])
             ->firstOrFail();
 
         return view('projects.show', compact('project'));

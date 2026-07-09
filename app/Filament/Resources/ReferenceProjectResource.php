@@ -90,12 +90,23 @@ class ReferenceProjectResource extends Resource
                     ->columnSpanFull(),
             ]),
 
-            Section::make('Kullanılan Ürünler')->schema([
-                TagsInput::make('used_products')
-                    ->label('Ürün Adları')
-                    ->placeholder('Ürün adı yazıp Enter...')
-                    ->columnSpanFull(),
-            ]),
+            Section::make('Kullanılan Ürünler')
+                ->description('Kataloğumuzdaki ürünlerden seçim, proje sayfasında gerçek ürün linki olarak gösterilir. Serbest metin, yalnızca kataloğumuzda olmayan (örn. AKEMI global) ürünler için yedek olarak kullanılır.')
+                ->schema([
+                    Select::make('products')
+                        ->label('Kataloğumuzdan Ürünler')
+                        ->multiple()
+                        ->relationship('products', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->columnSpanFull(),
+
+                    TagsInput::make('used_products')
+                        ->label('Serbest Metin (yedek)')
+                        ->placeholder('Ürün adı yazıp Enter...')
+                        ->helperText('Sadece yukarıdaki listede seçim yapılmadıysa proje sayfasında gösterilir.')
+                        ->columnSpanFull(),
+                ]),
 
             Section::make('Görseller')->schema([
                 FileUpload::make('image')

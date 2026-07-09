@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ReferenceProject extends Model
 {
@@ -37,5 +38,12 @@ class ReferenceProject extends Model
     public function segment(): BelongsTo
     {
         return $this->belongsTo(Segment::class);
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_reference_project')
+            ->withPivot('sort_order')
+            ->orderByPivot('sort_order');
     }
 }

@@ -149,30 +149,41 @@
                     </script>
                     @endif
 
-                    {{-- 3. Ambalaj Seçenekleri (açık, varsa) --}}
-                    @if (!empty($product->package_sizes))
-                    <details class="accordion-item" open>
+                    {{-- 3. Uygulama Adımları (KAPALI — Brief §05 accordion sırası) --}}
+                    @if (!empty($product->application_steps))
+                    <details class="accordion-item">
                         <summary>
-                            <span>Ambalaj Seçenekleri</span>
+                            <span>Uygulama Adımları</span>
                             <svg class="accordion-chevron w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </summary>
-                        <div class="accordion-body">
-                            <div class="flex flex-wrap gap-2">
-                                @foreach ($product->package_sizes as $size)
-                                <span class="border border-gray-200 rounded px-3 py-1.5 text-sm text-gray-700">{{ $size }}</span>
+                        <div class="accordion-body p-0">
+                            <ol class="divide-y divide-gray-100">
+                                @foreach ($product->application_steps as $step)
+                                <li class="flex gap-4 px-5 py-4">
+                                    <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0"
+                                          style="background-color: var(--color-navy-10); color: var(--color-navy);">
+                                        {{ $loop->iteration }}
+                                    </span>
+                                    <div>
+                                        <p class="text-sm font-medium" style="color: var(--color-navy);">{{ $step['title'] ?? '' }}</p>
+                                        @if (!empty($step['description']))
+                                        <p class="text-sm text-gray-600 mt-1 leading-relaxed">{{ $step['description'] }}</p>
+                                        @endif
+                                    </div>
+                                </li>
                                 @endforeach
-                            </div>
+                            </ol>
                         </div>
                     </details>
                     @endif
 
-                    {{-- 4. Benzer Ürünler (açık, varsa) --}}
+                    {{-- 4. Tamamlayıcı Ürünler (açık, varsa) --}}
                     @if ($relatedProducts->isNotEmpty())
                     <details class="accordion-item" open>
                         <summary>
-                            <span>Tamamlayıcı & Benzer Ürünler</span>
+                            <span>Tamamlayıcı Ürünler</span>
                             <svg class="accordion-chevron w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
@@ -191,6 +202,40 @@
                                     @endif
                                     <div class="p-3">
                                         <p class="text-xs font-medium leading-snug" style="color: var(--color-navy);">{{ $related->name }}</p>
+                                    </div>
+                                </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </details>
+                    @endif
+
+                    {{-- 5. İlgili Projeler (açık, varsa — Brief §05 accordion sırası) --}}
+                    @if ($product->referenceProjects->isNotEmpty())
+                    <details class="accordion-item" open>
+                        <summary>
+                            <span>İlgili Projeler</span>
+                            <svg class="accordion-chevron w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </summary>
+                        <div class="accordion-body">
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                @foreach ($product->referenceProjects as $project)
+                                <a href="{{ route('projects.show', $project->slug) }}" class="card group block overflow-hidden">
+                                    @if ($project->image)
+                                    <div class="aspect-video overflow-hidden">
+                                        <img src="{{ Storage::url($project->image) }}" alt="{{ $project->title }}"
+                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                    </div>
+                                    @else
+                                    <div class="aspect-video bg-gray-100"></div>
+                                    @endif
+                                    <div class="p-3">
+                                        <p class="text-xs font-medium leading-snug" style="color: var(--color-navy);">{{ $project->title }}</p>
+                                        @if ($project->location)
+                                        <p class="text-xs text-gray-400 mt-0.5">{{ $project->location }}</p>
+                                        @endif
                                     </div>
                                 </a>
                                 @endforeach
@@ -222,22 +267,34 @@
                     </div>
 
                     {{-- Teknik Dokümanlar --}}
-                    @if ($product->tds_file || $product->sds_file)
+                    @if ($product->tds_file || $product->sds_file || $product->ce_file)
                     <div class="border border-gray-100 rounded-sm p-5">
                         <div class="label-caps mb-3">Teknik Dokümanlar</div>
-                        <button onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}')"
+                        <button onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}', {{ \Illuminate\Support\Js::from($product->availableDocTypes()) }})"
                                 class="w-full flex items-center gap-3 p-3 border border-gray-200 rounded-sm hover:border-navy transition-colors text-left group">
                             <svg class="w-5 h-5 text-gray-400 group-hover:text-navy flex-shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                             <div>
-                                <div class="text-sm font-medium" style="color: var(--color-navy);">TDS / SDS Talep Et</div>
+                                <div class="text-sm font-medium" style="color: var(--color-navy);">TDS / SDS / CE Talep Et</div>
                                 <div class="text-xs text-gray-400 mt-0.5">
-                                    @php $docs = array_filter(['TDS' => $product->tds_file, 'SDS' => $product->sds_file]); @endphp
+                                    @php $docs = array_filter(['TDS' => $product->tds_file, 'SDS' => $product->sds_file, 'CE' => $product->ce_file]); @endphp
                                     {{ implode(', ', array_keys($docs)) }} mevcut
                                 </div>
                             </div>
                         </button>
+                    </div>
+                    @endif
+
+                    {{-- Ambalaj bilgisi (Brief §05: "ambalaj bilgisi alt kısımda") --}}
+                    @if (!empty($product->package_sizes))
+                    <div class="border border-gray-100 rounded-sm p-5">
+                        <div class="label-caps mb-3">Ambalaj Seçenekleri</div>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach ($product->package_sizes as $size)
+                            <span class="border border-gray-200 rounded px-2.5 py-1 text-xs text-gray-700">{{ $size }}</span>
+                            @endforeach
+                        </div>
                     </div>
                     @endif
 
@@ -268,10 +325,10 @@
            class="btn btn-primary flex-1 justify-center text-sm py-2.5">
             Teklif İste
         </a>
-        @if ($product->tds_file || $product->sds_file)
-        <button onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}')"
+        @if ($product->tds_file || $product->sds_file || $product->ce_file)
+        <button onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}', {{ \Illuminate\Support\Js::from($product->availableDocTypes()) }})"
                 class="btn btn-secondary text-sm py-2.5 px-4">
-            TDS/SDS
+            TDS/SDS/CE
         </button>
         @endif
         <a href="{{ route('contact.index') }}"

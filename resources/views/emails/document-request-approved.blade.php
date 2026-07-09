@@ -40,10 +40,11 @@
             <div class="product-box">
                 <strong>{{ $request->product?->name ?? '—' }}</strong>
                 <span>
-                    @if ($request->document_type === 'tds') TDS — Teknik Veri Sayfası
-                    @elseif ($request->document_type === 'sds') SDS — Güvenlik Veri Sayfası
-                    @else TDS + SDS
-                    @endif
+                    @php
+                        $typeLabels = ['tds' => 'TDS — Teknik Veri Sayfası', 'sds' => 'SDS — Güvenlik Veri Sayfası', 'ce' => 'CE — Uygunluk Belgesi'];
+                        $requested = explode(',', $request->document_type);
+                    @endphp
+                    {{ implode(' + ', array_intersect_key($typeLabels, array_flip($requested))) }}
                 </span>
             </div>
 

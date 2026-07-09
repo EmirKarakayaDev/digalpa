@@ -65,22 +65,23 @@
             </div>
 
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-2">Doküman Türü <span class="text-red-500">*</span></label>
-                <div class="flex gap-4">
+                <label class="block text-xs font-medium text-gray-700 mb-2">Doküman Türü <span class="text-red-500">*</span> <span class="text-gray-400 font-normal">(birden fazla seçilebilir)</span></label>
+                <div class="flex gap-4" id="modal-doc-types">
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="document_type" value="tds" class="accent-navy" required>
+                        <input type="checkbox" name="document_type[]" value="tds" class="accent-navy" data-doc-type="tds">
                         <span class="text-sm">TDS (Teknik Veri)</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="document_type" value="sds" class="accent-navy">
+                        <input type="checkbox" name="document_type[]" value="sds" class="accent-navy" data-doc-type="sds">
                         <span class="text-sm">SDS (Güvenlik)</span>
                     </label>
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="document_type" value="both" class="accent-navy">
-                        <span class="text-sm">Her İkisi</span>
+                        <input type="checkbox" name="document_type[]" value="ce" class="accent-navy" data-doc-type="ce">
+                        <span class="text-sm">CE (Uygunluk)</span>
                     </label>
                 </div>
                 @error('document_type')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                @error('document_type.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
             <div>
@@ -102,10 +103,21 @@
     const backdrop = document.getElementById('modal-backdrop');
     const closeBtn = document.getElementById('modal-close');
 
-    function openDocModal(productId, productName) {
+    function openDocModal(productId, productName, availableTypes) {
         document.getElementById('modal-product-id').value = productId || '';
         var nameEl = document.getElementById('modal-product-name');
         nameEl.textContent = productName ? 'Ürün: ' + productName : '';
+
+        // Ürüne göre hangi belgeler mevcutsa sadece onları seçilebilir bırak
+        // (availableTypes verilmezse hepsi seçilebilir kalır — örn. genel talep)
+        var checkboxes = document.querySelectorAll('#modal-doc-types input[data-doc-type]');
+        checkboxes.forEach(function (cb) {
+            var isAvailable = !availableTypes || availableTypes.indexOf(cb.dataset.docType) !== -1;
+            cb.disabled = !isAvailable;
+            cb.checked = isAvailable;
+            cb.closest('label').classList.toggle('opacity-40', !isAvailable);
+        });
+
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         document.body.style.overflow = 'hidden';

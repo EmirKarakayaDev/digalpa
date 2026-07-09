@@ -35,19 +35,21 @@ class DocumentRequestApproved extends Mailable
     public function attachments(): array
     {
         $attachments = [];
-
         $product = $this->request->product;
 
-        if ($product && in_array($this->request->document_type, ['tds', 'both']) && $product->tds_file) {
-            $attachments[] = Attachment::fromStorageDisk('public', $product->tds_file)
-                ->as('TDS_' . str($product->name)->slug() . '.pdf')
-                ->withMime('application/pdf');
+        if (! $product) {
+            return $attachments;
         }
 
-        if ($product && in_array($this->request->document_type, ['sds', 'both']) && $product->sds_file) {
-            $attachments[] = Attachment::fromStorageDisk('public', $product->sds_file)
-                ->as('SDS_' . str($product->name)->slug() . '.pdf')
-                ->withMime('application/pdf');
+        $requested = explode(',', $this->request->document_type);
+        $files = ['tds' => $product->tds_file, 'sds' => $product->sds_file, 'ce' => $product->ce_file];
+
+        foreach ($files as $type => $file) {
+            if ($file && in_array($type, $requested)) {
+                $attachments[] = Attachment::fromStorageDisk('public', $file)
+                    ->as(strtoupper($type) . '_' . str($product->name)->slug() . '.pdf')
+                    ->withMime('application/pdf');
+            }
         }
 
         return $attachments;

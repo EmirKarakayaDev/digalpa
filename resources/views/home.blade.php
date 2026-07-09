@@ -210,7 +210,7 @@
                     {{-- TDS Linki --}}
                     <div class="px-4 pb-3 pt-1 border-t border-gray-100 mt-auto">
                         <button type="button"
-                                onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}')"
+                                onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}', {{ \Illuminate\Support\Js::from($product->availableDocTypes()) }})"
                                 class="text-xs flex items-center gap-1 transition-colors"
                                 style="color: var(--color-navy-60);">
                             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

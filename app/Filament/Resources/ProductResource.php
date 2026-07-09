@@ -120,6 +120,27 @@ class ProductResource extends Resource
                     ->columnSpanFull(),
             ])->columns(2),
 
+            Section::make('Uygulama Adımları')
+                ->description('Ürün sayfasında kapalı başlayan accordion bölümü (Brief §05).')
+                ->schema([
+                    Repeater::make('application_steps')
+                        ->label('')
+                        ->schema([
+                            TextInput::make('title')
+                                ->label('Adım Başlığı')
+                                ->required()
+                                ->placeholder('Yüzey Hazırlığı'),
+                            Textarea::make('description')
+                                ->label('Açıklama')
+                                ->rows(2)
+                                ->required(),
+                        ])
+                        ->addActionLabel('Adım Ekle')
+                        ->reorderable()
+                        ->collapsible()
+                        ->columnSpanFull(),
+                ]),
+
             Section::make('Dokümanlar')->schema([
                 FileUpload::make('tds_file')
                     ->label('TDS (Teknik Veri Sayfası)')
@@ -130,7 +151,12 @@ class ProductResource extends Resource
                     ->label('SDS (Güvenlik Veri Sayfası)')
                     ->directory('documents')
                     ->acceptedFileTypes(['application/pdf']),
-            ])->columns(2),
+
+                FileUpload::make('ce_file')
+                    ->label('CE (Uygunluk Belgesi)')
+                    ->directory('documents')
+                    ->acceptedFileTypes(['application/pdf']),
+            ])->columns(3),
 
             Section::make('Görseller')->schema([
                 FileUpload::make('image')
@@ -155,6 +181,18 @@ class ProductResource extends Resource
                     ->preload()
                     ->columnSpanFull(),
             ]),
+
+            Section::make('İlgili Projeler')
+                ->description('Ürün sayfasında "varsa" gösterilen İlgili Projeler accordion\'u (Brief §05).')
+                ->schema([
+                    Select::make('referenceProjects')
+                        ->label('İlgili Projeler')
+                        ->multiple()
+                        ->relationship('referenceProjects', 'title')
+                        ->searchable()
+                        ->preload()
+                        ->columnSpanFull(),
+                ]),
 
             Section::make('SEO')->schema([
                 TextInput::make('meta_title')

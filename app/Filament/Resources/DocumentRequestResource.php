@@ -37,12 +37,7 @@ class DocumentRequestResource extends Resource
 
                 Placeholder::make('document_type')
                     ->label('Doküman Türü')
-                    ->content(fn ($record) => match($record?->document_type) {
-                        'tds'  => 'TDS (Teknik Veri Sayfası)',
-                        'sds'  => 'SDS (Güvenlik Veri Sayfası)',
-                        'both' => 'TDS + SDS',
-                        default => '—',
-                    }),
+                    ->content(fn ($record) => $record ? static::formatDocumentTypes($record->document_type, long: true) : '—'),
 
                 Placeholder::make('full_name')->label('Ad Soyad')
                     ->content(fn ($record) => $record?->full_name ?? '—'),
@@ -93,9 +88,9 @@ class DocumentRequestResource extends Resource
                 Tables\Columns\TextColumn::make('document_type')
                     ->label('Tür')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => strtoupper($state))
-                    ->color(fn ($state) => match ($state) {
-                        'tds' => 'info', 'sds' => 'warning', 'both' => 'success', default => 'gray',
+                    ->formatStateUsing(fn ($state) => static::formatDocumentTypes($state))
+                    ->color(fn ($state) => str_contains($state, ',') ? 'success' : match ($state) {
+                        'tds' => 'info', 'sds' => 'warning', 'ce' => 'gray', default => 'gray',
                     }),
 
                 Tables\Columns\TextColumn::make('status')
@@ -113,12 +108,26 @@ class DocumentRequestResource extends Resource
                 Tables\Filters\SelectFilter::make('status')->label('Durum')->options([
                     'pending' => 'Bekliyor', 'sent' => 'Gönderildi', 'rejected' => 'Reddedildi',
                 ]),
-                Tables\Filters\SelectFilter::make('document_type')->label('Tür')->options([
-                    'tds' => 'TDS', 'sds' => 'SDS', 'both' => 'TDS + SDS',
-                ]),
+                Tables\Filters\SelectFilter::make('document_type')
+                    ->label('Tür')
+                    ->options(['tds' => 'TDS', 'sds' => 'SDS', 'ce' => 'CE'])
+                    ->query(fn ($query, array $data) => filled($data['value'] ?? null)
+                        ? $query->where('document_type', 'like', '%' . $data['value'] . '%')
+                        : $query),
             ])
             ->actions([EditAction::make()])
             ->bulkActions([BulkActionGroup::make([DeleteBulkAction::make()])]);
+    }
+
+    private static function formatDocumentTypes(string $documentType, bool $long = false): string
+    {
+        $labels = $long
+            ? ['tds' => 'TDS (Teknik Veri Sayfası)', 'sds' => 'SDS (Güvenlik Veri Sayfası)', 'ce' => 'CE (Uygunluk Belgesi)']
+            : ['tds' => 'TDS', 'sds' => 'SDS', 'ce' => 'CE'];
+
+        $selected = array_intersect_key($labels, array_flip(explode(',', $documentType)));
+
+        return $selected ? implode(' + ', $selected) : '—';
     }
 
     public static function getPages(): array

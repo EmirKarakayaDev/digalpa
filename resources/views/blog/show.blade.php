@@ -76,8 +76,8 @@
                                            style="color: var(--color-navy-60)">
                                             İncele →
                                         </a>
-                                        @if ($product->tds_file || $product->sds_file)
-                                        <button onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}')"
+                                        @if ($product->tds_file || $product->sds_file || $product->ce_file)
+                                        <button onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}', {{ \Illuminate\Support\Js::from($product->availableDocTypes()) }})"
                                                 class="text-xs text-gray-400 hover:text-gray-600 transition-colors ml-auto">
                                             Belge Talep Et
                                         </button>

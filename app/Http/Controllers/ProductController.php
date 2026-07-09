@@ -43,7 +43,7 @@ class ProductController extends Controller
     {
         $product = Product::where('slug', $slug)
             ->where('is_active', true)
-            ->with(['categories.segment'])
+            ->with(['categories.segment', 'referenceProjects'])
             ->firstOrFail();
 
         $relatedProducts = Product::where('is_active', true)

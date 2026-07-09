@@ -33,6 +33,6 @@ class DocumentRequestController extends Controller
             'ip_address'    => $request->ip(),
         ]);
 
-        return back()->with('document_request_success', 'Talebiniz alındı. Doküman en kısa sürede e-posta adresinize iletilecektir.');
+        return back()->with('document_request_success', 'Talebiniz alındı. 24 saat içinde e-posta adresinize gönderiyoruz.');
     }
 }

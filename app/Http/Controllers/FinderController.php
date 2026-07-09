@@ -4,22 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\FinderNode;
 use App\Models\Segment;
+use Illuminate\Http\Request;
 
 class FinderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $segments = Segment::where('is_active', true)
             ->orderBy('sort_order')
             ->get();
 
+        $activeSegment = $request->filled('segment')
+            ? $segments->firstWhere('slug', $request->query('segment'))
+            : null;
+
         $rootNodes = FinderNode::where('depth', 1)
             ->where('is_active', true)
+            ->when($activeSegment, fn ($q) => $q->where('segment_id', $activeSegment->id))
             ->orderBy('sort_order')
             ->with('segment')
             ->get();
 
-        return view('finder.index', compact('segments', 'rootNodes'));
+        return view('finder.index', compact('segments', 'rootNodes', 'activeSegment'));
     }
 
     public function step(string $slug)

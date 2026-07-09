@@ -58,7 +58,7 @@
                         </h3>
                         <div class="space-y-2">
                             @foreach ($segments as $segment)
-                            <a href="{{ route('products.index', $segment->slug) }}"
+                            <a href="{{ route('finder.index', ['segment' => $segment->slug]) }}"
                                class="flex items-center justify-between p-3 border border-gray-200 rounded-sm hover:border-navy transition-all group"
                                style="--tw-border-opacity: 1;">
                                 <div class="flex items-center gap-3">

@@ -29,10 +29,21 @@
         </div>
 
         <div class="max-w-2xl mx-auto text-center mb-10">
+            @if ($activeSegment)
+            <div class="mb-3 flex justify-center">
+                <x-segment-badge :segment="$activeSegment" />
+            </div>
+            <h1 class="text-4xl mb-4">{{ $activeSegment->name }} İçin Uygulama Alanını Seçin</h1>
+            <p class="text-gray-600 leading-relaxed">
+                Ürününüzün kullanılacağı alanı seçerek devam edin.
+                <a href="{{ route('finder.index') }}" class="underline hover:no-underline" style="color: var(--color-navy-60);">Tüm segmentleri gör</a>
+            </p>
+            @else
             <h1 class="text-4xl mb-4">Uygulama Alanını Seçin</h1>
             <p class="text-gray-600 leading-relaxed">
                 Ürününüzün kullanılacağı alanı seçerek başlayın.
             </p>
+            @endif
         </div>
 
         {{-- Adım 1: Kök Düğümler --}}

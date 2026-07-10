@@ -6,19 +6,23 @@
     <div class="container-content py-16">
 
         {{-- Progress Bar --}}
-        @php $currentStep = 1; $steps = ['Segment', 'Uygulama', 'Detay']; @endphp
+        {{-- ?segment= ile gelindiyse Segment adımı zaten tamamlanmış sayılır (Brief §08 akış kuralı) --}}
+        @php $currentStep = $activeSegment ? 2 : 1; $steps = ['Segment', 'Uygulama', 'Detay']; @endphp
         <div class="max-w-xs mx-auto mb-12">
-            <div class="flex items-start">
+            <div class="grid relative" style="grid-template-columns: repeat({{ count($steps) }}, 1fr);">
+                {{-- Bağlantı çizgileri — circle'ların ortasından geçen ayrı, mutlak konumlu katman
+                     (circle ile aynı satırda olsaydı genişliğin çoğunu yiyip alttaki etiketi
+                     circle'ın değil, "circle+çizgi" satırının ortasına hizalardı) --}}
+                @for ($i = 0; $i < count($steps) - 1; $i++)
+                <div class="absolute top-4 h-px {{ ($i + 1) < $currentStep ? 'bg-navy' : 'bg-gray-200' }}"
+                     style="left: {{ (100 / count($steps)) * ($i + 0.5) }}%; width: {{ 100 / count($steps) }}%;"></div>
+                @endfor
+
                 @foreach ($steps as $i => $label)
-                <div class="flex flex-col items-center {{ $i < count($steps) - 1 ? 'flex-1' : '' }}">
-                    <div class="flex items-center w-full">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0
-                                    {{ ($i + 1) <= $currentStep ? 'bg-navy text-white' : 'bg-gray-100 text-gray-400' }}">
-                            {{ $i + 1 }}
-                        </div>
-                        @if ($i < count($steps) - 1)
-                        <div class="flex-1 h-px mx-2 {{ ($i + 1) < $currentStep ? 'bg-navy' : 'bg-gray-200' }}"></div>
-                        @endif
+                <div class="flex flex-col items-center relative z-10">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0
+                                {{ ($i + 1) <= $currentStep ? 'bg-navy text-white' : 'bg-gray-100 text-gray-400' }}">
+                        {{ $i + 1 }}
                     </div>
                     <div class="text-xs mt-1.5 {{ ($i + 1) <= $currentStep ? 'font-medium text-navy' : 'text-gray-400' }}">
                         {{ $label }}

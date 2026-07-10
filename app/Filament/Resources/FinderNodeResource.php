@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Actions\BulkActionGroup;
@@ -76,6 +77,7 @@ class FinderNodeResource extends Resource
                 TextInput::make('slug')
                     ->label('Slug')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(255),
 
                 Textarea::make('description')
@@ -86,6 +88,19 @@ class FinderNodeResource extends Resource
                 Toggle::make('is_active')->label('Aktif')->default(true),
                 TextInput::make('sort_order')->label('Sıra')->numeric()->default(0),
             ])->columns(2),
+
+            Section::make('Ürünler')
+                ->description('Sadece Seviye 3 (Yapı Detayı / yaprak) düğümlerde, bu seçime ulaşan kullanıcıya gösterilecek ürünler seçilir.')
+                ->schema([
+                    Select::make('products')
+                        ->label('Bu Sonuçta Gösterilecek Ürünler')
+                        ->multiple()
+                        ->relationship('products', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->columnSpanFull(),
+                ])
+                ->visible(fn (Get $get) => (int) $get('depth') === 3),
         ]);
     }
 

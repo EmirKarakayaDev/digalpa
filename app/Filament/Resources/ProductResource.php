@@ -118,6 +118,17 @@ class ProductResource extends Resource
                     ->placeholder('5 kg, 20 kg...')
                     ->helperText('Enter ile ekle')
                     ->columnSpanFull(),
+
+                Select::make('stock_status')
+                    ->label('Stok Durumu')
+                    ->options([
+                        'in_stock'     => 'Stokta Var',
+                        'limited'      => 'Sınırlı Stok',
+                        'out_of_stock' => 'Stokta Yok',
+                    ])
+                    ->default('in_stock')
+                    ->required()
+                    ->columnSpanFull(),
             ])->columns(2),
 
             Section::make('Uygulama Adımları')
@@ -189,6 +200,18 @@ class ProductResource extends Resource
                         ->label('İlgili Projeler')
                         ->multiple()
                         ->relationship('referenceProjects', 'title')
+                        ->searchable()
+                        ->preload()
+                        ->columnSpanFull(),
+                ]),
+
+            Section::make('Tamamlayıcı Ürünler')
+                ->description('Ürün sayfasında "Tamamlayıcı Ürünler" accordion\'unda gösterilecek ürünler (Brief §05) — otomatik hesaplanmaz, burada seçilir.')
+                ->schema([
+                    Select::make('complementaryProducts')
+                        ->label('Tamamlayıcı Ürünler')
+                        ->multiple()
+                        ->relationship('complementaryProducts', 'name')
                         ->searchable()
                         ->preload()
                         ->columnSpanFull(),

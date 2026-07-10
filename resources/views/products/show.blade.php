@@ -18,9 +18,20 @@
             {{-- Sol: %65 İçerik --}}
             <article class="lg:w-[65%] min-w-0">
 
-                @if ($primarySegment)
-                <x-segment-badge :segment="$primarySegment" />
-                @endif
+                <div class="flex flex-wrap items-center gap-2">
+                    @if ($primarySegment)
+                    <x-segment-badge :segment="$primarySegment" />
+                    @endif
+
+                    <span class="segment-badge"
+                          style="{{ match ($product->stock_status) {
+                              'limited' => 'background-color:#FEF3C7;color:#B45309;border-color:#B45309;',
+                              'out_of_stock' => 'background-color:#FEE2E2;color:#B91C1C;border-color:#B91C1C;',
+                              default => 'background-color:#DCFCE7;color:#15803D;border-color:#15803D;',
+                          } }}">
+                        {{ $product->stockStatusLabel() }}
+                    </span>
+                </div>
 
                 <h1 class="mt-4" style="font-size: 42px;">{{ $product->name }}</h1>
 
@@ -179,8 +190,8 @@
                     </details>
                     @endif
 
-                    {{-- 4. Tamamlayıcı Ürünler (açık, varsa) --}}
-                    @if ($relatedProducts->isNotEmpty())
+                    {{-- 4. Tamamlayıcı Ürünler (açık, varsa — admin seçimi, Brief §05) --}}
+                    @if ($product->complementaryProducts->isNotEmpty())
                     <details class="accordion-item" open>
                         <summary>
                             <span>Tamamlayıcı Ürünler</span>
@@ -190,7 +201,7 @@
                         </summary>
                         <div class="accordion-body">
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                @foreach ($relatedProducts as $related)
+                                @foreach ($product->complementaryProducts as $related)
                                 <a href="{{ route('products.show', $related->slug) }}" class="card group block">
                                     @if ($related->image)
                                     <div class="aspect-square overflow-hidden bg-gray-50">

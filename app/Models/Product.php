@@ -19,6 +19,7 @@ class Product extends Model
         'coverage_min',
         'coverage_max',
         'coverage_unit',
+        'stock_status',
         'tds_file',
         'sds_file',
         'ce_file',
@@ -67,6 +68,23 @@ class Product extends Model
         return $this->belongsToMany(ReferenceProject::class, 'product_reference_project')
             ->withPivot('sort_order')
             ->orderByPivot('sort_order');
+    }
+
+    public function complementaryProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_complementary_product', 'product_id', 'complementary_product_id')
+            ->withPivot('sort_order')
+            ->orderByPivot('sort_order');
+    }
+
+    /** Brief §02: "Stokta var" / "Sınırlı stok" / "Stokta yok" göstergesi. */
+    public function stockStatusLabel(): string
+    {
+        return match ($this->stock_status) {
+            'limited'      => 'Sınırlı Stok',
+            'out_of_stock' => 'Stokta Yok',
+            default        => 'Stokta Var',
+        };
     }
 
     /** Doküman talep modalında hangi checkbox'ların seçilebilir olacağı (Brief §05/§06). */

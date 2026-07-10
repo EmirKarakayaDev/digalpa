@@ -43,18 +43,9 @@ class ProductController extends Controller
     {
         $product = Product::where('slug', $slug)
             ->where('is_active', true)
-            ->with(['categories.segment', 'referenceProjects'])
+            ->with(['categories.segment', 'referenceProjects', 'complementaryProducts'])
             ->firstOrFail();
 
-        $relatedProducts = Product::where('is_active', true)
-            ->whereHas('categories', fn ($q) =>
-                $q->whereIn('categories.id', $product->categories->pluck('id'))
-            )
-            ->where('id', '!=', $product->id)
-            ->orderBy('sort_order')
-            ->limit(4)
-            ->get();
-
-        return view('products.show', compact('product', 'relatedProducts'));
+        return view('products.show', compact('product'));
     }
 }

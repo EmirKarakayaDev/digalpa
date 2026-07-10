@@ -9,6 +9,7 @@ class DocumentRequest extends Model
 {
     protected $fillable = [
         'product_id',
+        'product_name',
         'full_name',
         'email',
         'phone',

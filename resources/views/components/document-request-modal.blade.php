@@ -26,13 +26,16 @@
         @else
 
         {{-- Form --}}
-        <form action="{{ route('document-request.store') }}" method="POST" class="p-6 space-y-4">
+        <form action="{{ route('document-request.store') }}" method="POST" class="px-6 pb-6 pt-4 space-y-4">
             @csrf
 
             <input type="hidden" name="product_id" id="modal-product-id">
 
             <div>
-                <p id="modal-product-name" class="text-sm font-medium text-navy mb-4"></p>
+                <label class="block text-xs font-medium text-gray-700 mb-1">Ürün Adı</label>
+                <input type="text" name="product_name" id="modal-product-name"
+                       class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-navy transition-colors"
+                       value="{{ old('product_name') }}">
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -51,16 +54,18 @@
                     @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Telefon</label>
-                    <input type="tel" name="phone"
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Telefon <span class="text-red-500">*</span></label>
+                    <input type="tel" name="phone" required
                            class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-navy transition-colors"
                            value="{{ old('phone') }}">
+                    @error('phone')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Firma</label>
-                    <input type="text" name="company"
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Firma <span class="text-red-500">*</span></label>
+                    <input type="text" name="company" required
                            class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-navy transition-colors"
                            value="{{ old('company') }}">
+                    @error('company')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
             </div>
 
@@ -105,8 +110,7 @@
 
     function openDocModal(productId, productName, availableTypes) {
         document.getElementById('modal-product-id').value = productId || '';
-        var nameEl = document.getElementById('modal-product-name');
-        nameEl.textContent = productName ? 'Ürün: ' + productName : '';
+        document.getElementById('modal-product-name').value = productName || '';
 
         // Ürüne göre hangi belgeler mevcutsa sadece onları seçilebilir bırak
         // (availableTypes verilmezse hepsi seçilebilir kalır — örn. genel talep)

@@ -31,7 +31,7 @@
             <p class="text">Web sitesinden yeni bir teknik doküman talebi geldi. 24 saat içinde yanıtlanması gerekiyor.</p>
 
             <table class="details">
-                <tr><td>Ürün</td><td>{{ $request->product?->name ?? '—' }}</td></tr>
+                <tr><td>Ürün</td><td>{{ $request->product?->name ?? $request->product_name ?? '—' }}</td></tr>
                 <tr><td>Ad Soyad</td><td>{{ $request->full_name }}</td></tr>
                 <tr><td>Firma</td><td>{{ $request->company ?: '—' }}</td></tr>
                 <tr><td>E-posta</td><td>{{ $request->email }}</td></tr>

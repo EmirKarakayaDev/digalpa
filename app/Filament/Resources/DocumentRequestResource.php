@@ -31,9 +31,9 @@ class DocumentRequestResource extends Resource
     {
         return $schema->components([
             Section::make('Talep Bilgileri')->schema([
-                Placeholder::make('product_name')
+                Placeholder::make('product_display')
                     ->label('Ürün')
-                    ->content(fn ($record) => $record?->product?->name ?? '—'),
+                    ->content(fn ($record) => $record?->product?->name ?? $record?->product_name ?? '—'),
 
                 Placeholder::make('document_type')
                     ->label('Doküman Türü')
@@ -83,7 +83,10 @@ class DocumentRequestResource extends Resource
 
                 Tables\Columns\TextColumn::make('full_name')->label('Ad Soyad')->searchable(),
                 Tables\Columns\TextColumn::make('email')->label('E-posta')->searchable(),
-                Tables\Columns\TextColumn::make('product.name')->label('Ürün')->limit(40),
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label('Ürün')
+                    ->limit(40)
+                    ->formatStateUsing(fn ($state, $record) => $state ?? $record->product_name ?? '—'),
 
                 Tables\Columns\TextColumn::make('document_type')
                     ->label('Tür')

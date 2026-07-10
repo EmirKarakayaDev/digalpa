@@ -38,7 +38,7 @@
             </p>
 
             <div class="product-box">
-                <strong>{{ $request->product?->name ?? '—' }}</strong>
+                <strong>{{ $request->product?->name ?? $request->product_name ?? '—' }}</strong>
                 <span>
                     @php
                         $typeLabels = ['tds' => 'TDS — Teknik Veri Sayfası', 'sds' => 'SDS — Güvenlik Veri Sayfası', 'ce' => 'CE — Uygunluk Belgesi'];

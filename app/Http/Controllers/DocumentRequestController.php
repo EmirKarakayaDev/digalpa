@@ -12,10 +12,11 @@ class DocumentRequestController extends Controller
     {
         $validated = $request->validate([
             'product_id'      => 'nullable|exists:products,id',
+            'product_name'    => 'nullable|string|max:255',
             'full_name'       => 'required|string|max:255',
             'email'           => 'required|email|max:255',
-            'phone'           => 'nullable|string|max:30',
-            'company'         => 'nullable|string|max:255',
+            'phone'           => 'required|string|max:30',
+            'company'         => 'required|string|max:255',
             'document_type'   => 'required|array|min:1',
             'document_type.*' => 'in:tds,sds,ce',
             'message'         => 'nullable|string|max:2000',
@@ -23,6 +24,8 @@ class DocumentRequestController extends Controller
             'full_name.required'     => 'Ad soyad zorunludur.',
             'email.required'         => 'E-posta zorunludur.',
             'email.email'            => 'Geçerli bir e-posta adresi giriniz.',
+            'phone.required'         => 'Telefon zorunludur.',
+            'company.required'       => 'Firma zorunludur.',
             'document_type.required' => 'En az bir doküman türü seçiniz.',
             'document_type.*.in'     => 'Geçersiz doküman türü.',
         ]);

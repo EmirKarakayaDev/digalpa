@@ -25,6 +25,7 @@ class ReferenceProjectSeeder extends Seeder
                 'year'        => 2023,
                 'description' => 'Tarihi otelin mermer zeminleri ve cephesinde kapsamlı taş koruma ve restorasyon çalışması.',
                 'is_featured' => true,
+                'source'      => 'digalpa',
                 'products'    => ['stoneguard-pro-100', 'cleanstone-ac'],
             ],
             [
@@ -35,6 +36,7 @@ class ReferenceProjectSeeder extends Seeder
                 'year'        => 2024,
                 'description' => '450 daireli rezidans projesinin bodrum katı ve teras alanlarında tam su yalıtım sistemi.',
                 'is_featured' => true,
+                'source'      => 'digalpa',
                 'products'    => ['aquastop-2k', 'hydroflex-500'],
             ],
             [
@@ -45,6 +47,7 @@ class ReferenceProjectSeeder extends Seeder
                 'year'        => 2023,
                 'description' => 'Marina iskelesi ve depolama alanlarında deniz koşullarına dayanıklı anti-pas ve kaplama uygulaması.',
                 'is_featured' => true,
+                'source'      => 'digalpa',
                 'products'    => ['marinecoat-3000', 'ruststop-marine'],
             ],
             [
@@ -55,7 +58,31 @@ class ReferenceProjectSeeder extends Seeder
                 'year'        => 2024,
                 'description' => '8.000 m² granit zemininin koruma ve parlatma uygulaması.',
                 'is_featured' => false,
+                'source'      => 'akemi',
                 'products'    => ['diapol-k', 'marblepol-hp'],
+            ],
+            // Brief §09: min. 6 proje, AKEMI global referanslarıyla açılış — İnşaat segmentine 2. AKEMI referansı
+            [
+                'segment'     => $insaat,
+                'title'       => 'Frankfurt Ofis Kompleksi Temel İzolasyonu — AKEMI Global Referans',
+                'client'      => 'AKEMI GmbH',
+                'location'    => 'Frankfurt, Almanya',
+                'year'        => 2022,
+                'description' => 'AKEMI\'nin Almanya\'daki referans projelerinden: çok katlı ofis kompleksinin temel ve bodrum katlarında iki bileşenli su yalıtım sistemi uygulaması.',
+                'is_featured' => false,
+                'source'      => 'akemi',
+                'products'    => ['aquastop-2k', 'crystalseal-wb'],
+            ],
+            [
+                'segment'     => $marine,
+                'title'       => 'İzmir Çeşme Marina Kaplama Projesi',
+                'client'      => 'Çeşme Marina İşletmesi',
+                'location'    => 'İzmir',
+                'year'        => 2024,
+                'description' => 'Yat limanı çelik iskele ve platform yüzeylerinde tuzlu su ve UV\'ye dayanıklı anti-korozyon kaplama sistemi uygulaması.',
+                'is_featured' => false,
+                'source'      => 'digalpa',
+                'products'    => ['oceanshield-uv', 'ironguard-500'],
             ],
         ];
 
@@ -81,6 +108,7 @@ class ReferenceProjectSeeder extends Seeder
                     'used_products' => $productModels->pluck('name')->all(),
                     'is_active'     => true,
                     'is_featured'   => $data['is_featured'],
+                    'source'        => $data['source'],
                     'sort_order'    => $i + 1,
                 ]
             );

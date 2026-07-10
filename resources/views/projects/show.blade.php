@@ -58,16 +58,26 @@
                 </div>
                 @endif
 
-                {{-- Galeri --}}
+                {{-- Galeri — 2x2 grid + "N görsel daha" + lightbox (Brief §09) --}}
                 @if (!empty($project->gallery) && count($project->gallery))
+                @php
+                    $galleryUrls = collect($project->gallery)->map(fn ($img) => Storage::url($img))->all();
+                    $visibleCount = min(4, count($galleryUrls));
+                    $remaining = count($galleryUrls) - 4;
+                @endphp
                 <div class="mt-10">
                     <h3 class="mb-4">Proje Görselleri</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        @foreach ($project->gallery as $img)
-                        <div class="aspect-square overflow-hidden rounded-sm bg-gray-100">
-                            <img src="{{ Storage::url($img) }}" alt="" class="w-full h-full object-cover">
-                        </div>
-                        @endforeach
+                    <div class="project-gallery grid grid-cols-2 gap-3" data-gallery="{{ json_encode($galleryUrls) }}">
+                        @for ($i = 0; $i < $visibleCount; $i++)
+                        <button type="button" class="gallery-thumb relative aspect-square overflow-hidden rounded-sm bg-gray-100" data-index="{{ $i }}">
+                            <img src="{{ $galleryUrls[$i] }}" alt="" class="w-full h-full object-cover">
+                            @if ($i === 3 && $remaining > 0)
+                            <span class="absolute inset-0 bg-navy/70 flex items-center justify-center text-white text-lg font-medium">
+                                +{{ $remaining }} görsel daha
+                            </span>
+                            @endif
+                        </button>
+                        @endfor
                     </div>
                 </div>
                 @endif
@@ -123,6 +133,30 @@
             </aside>
 
         </div>
+    </div>
+
+    {{-- Galeri Lightbox --}}
+    <div id="gallery-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-navy/90 p-4">
+        <button type="button" id="gallery-lightbox-close" aria-label="Kapat"
+                class="absolute top-4 right-4 text-white/80 hover:text-white">
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <button type="button" id="gallery-lightbox-prev" aria-label="Önceki"
+                class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white">
+            <svg class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        <img id="gallery-lightbox-img" src="" alt="" class="max-h-[85vh] max-w-[90vw] object-contain rounded-sm">
+        <button type="button" id="gallery-lightbox-next" aria-label="Sonraki"
+                class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white">
+            <svg class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+        <div id="gallery-lightbox-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm"></div>
     </div>
 
 </x-layouts.app>

@@ -20,8 +20,8 @@
             @endif
         </a>
 
-        {{-- Masaüstü Menü --}}
-        <div class="hidden lg:flex items-center gap-1">
+        {{-- Masaüstü Menü — Brief §03: 767px altı mobil, md: (768px) Tailwind'de en yakın karşılık --}}
+        <div class="hidden md:flex items-center gap-1">
 
             {{-- Hakkımızda --}}
             <a href="{{ route('about.index') }}" class="nav-link text-white/80 hover:text-white text-sm px-3 py-2 rounded transition-colors">
@@ -80,7 +80,7 @@
         </div>
 
         {{-- CTA Butonu --}}
-        <div class="hidden lg:flex items-center gap-3">
+        <div class="hidden md:flex items-center gap-3">
             {{-- Dil etiketi — EN eklenince TR/EN toggle'a dönüşecek (Brief §03) --}}
             <span class="lang-label">TR</span>
 
@@ -93,7 +93,7 @@
         </div>
 
         {{-- Mobil Hamburger --}}
-        <button id="drawer-open-btn" class="lg:hidden text-white p-2 -mr-2" aria-label="Menüyü aç">
+        <button id="drawer-open-btn" class="md:hidden text-white p-2 -mr-2" aria-label="Menüyü aç">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
@@ -103,11 +103,11 @@
 
 {{-- Mobil Drawer — sağdan kayan panel (Brief §03) --}}
 <div id="drawer-overlay"
-     class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+     class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"
      aria-hidden="true"></div>
 
 <div id="drawer-panel"
-     class="fixed top-0 right-0 h-full w-72 z-50 flex flex-col lg:hidden
+     class="fixed top-0 right-0 h-full w-72 z-50 flex flex-col md:hidden
             translate-x-full transition-transform duration-300 ease-in-out"
      style="background-color: var(--color-navy);">
 

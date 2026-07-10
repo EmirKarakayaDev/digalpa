@@ -131,7 +131,9 @@ class ReferenceProjectResource extends Resource
                     ->default('digalpa')
                     ->required(),
                 Toggle::make('is_active')->label('Aktif')->default(true),
-                Toggle::make('is_featured')->label('Ana Sayfada Göster'),
+                Toggle::make('is_featured')
+                    ->label('Ana Sayfada Göster')
+                    ->helperText('Ana sayfada sıra numarasına (Sıra alanı) göre en fazla 3 tanesi gösterilir — daha fazla işaretlerseniz ilk 3\'ü görünür.'),
                 TextInput::make('sort_order')->label('Sıra')->numeric()->default(0),
             ])->columns(2),
         ]);

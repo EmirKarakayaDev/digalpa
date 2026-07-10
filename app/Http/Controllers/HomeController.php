@@ -26,7 +26,7 @@ class HomeController extends Controller
         $featuredProjects = ReferenceProject::where('is_active', true)
             ->where('is_featured', true)
             ->orderBy('sort_order')
-            ->limit(6)
+            ->limit(3) // Brief §04: "Öne Çıkan Projeler — 3 kart"
             ->with('segment')
             ->get();
 

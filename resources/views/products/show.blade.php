@@ -78,6 +78,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </summary>
+                        <div class="accordion-panel">
                         <div class="accordion-body p-0">
                             <div class="divide-y divide-gray-100">
                                 @foreach ($product->technical_specs as $spec)
@@ -92,6 +93,7 @@
                                 @endforeach
                             </div>
                         </div>
+                        </div>
                     </details>
                     @endif
 
@@ -104,6 +106,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </summary>
+                        <div class="accordion-panel">
                         <div class="accordion-body">
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-5">
                                 <div>
@@ -129,6 +132,7 @@
                                 Tüketim: {{ $product->coverage_min }}{{ $product->coverage_max && $product->coverage_max != $product->coverage_min ? ' – ' . $product->coverage_max : '' }}
                                 {{ $product->coverage_unit ?: 'm²/L' }} · Fire payı hesaba dahildir.
                             </p>
+                        </div>
                         </div>
                     </details>
 
@@ -169,6 +173,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </summary>
+                        <div class="accordion-panel">
                         <div class="accordion-body p-0">
                             <ol class="divide-y divide-gray-100">
                                 @foreach ($product->application_steps as $step)
@@ -187,6 +192,7 @@
                                 @endforeach
                             </ol>
                         </div>
+                        </div>
                     </details>
                     @endif
 
@@ -199,6 +205,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </summary>
+                        <div class="accordion-panel">
                         <div class="accordion-body">
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 @foreach ($product->complementaryProducts as $related)
@@ -218,6 +225,7 @@
                                 @endforeach
                             </div>
                         </div>
+                        </div>
                     </details>
                     @endif
 
@@ -230,6 +238,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </summary>
+                        <div class="accordion-panel">
                         <div class="accordion-body">
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                                 @foreach ($product->referenceProjects as $project)
@@ -251,6 +260,7 @@
                                 </a>
                                 @endforeach
                             </div>
+                        </div>
                         </div>
                     </details>
                     @endif

@@ -299,8 +299,19 @@
         background-color: #fff;
     }
     .accordion-item summary::-webkit-details-marker { display: none; }
+    .accordion-item summary:hover {
+        background-color: var(--color-navy-10);
+    }
+    .accordion-item summary:focus-visible {
+        outline: 2px solid var(--color-navy-60);
+        outline-offset: -2px;
+    }
     .accordion-item[open] > summary {
         border-bottom: 1px solid #E5E7EB;
+    }
+    .accordion-panel {
+        overflow: hidden;
+        transition: height 200ms ease;
     }
     .accordion-body {
         padding: 20px;

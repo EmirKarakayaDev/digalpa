@@ -69,33 +69,35 @@
                 </div>
             </div>
 
-            <div>
-                <label class="block text-xs font-medium text-gray-700 mb-2">Doküman Türü <span class="text-red-500">*</span> <span class="text-gray-400 font-normal">(birden fazla seçilebilir)</span></label>
-                <div class="flex gap-4" id="modal-doc-types">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="document_type[]" value="tds" class="accent-navy" data-doc-type="tds">
-                        <span class="text-sm">TDS (Teknik Veri)</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="document_type[]" value="sds" class="accent-navy" data-doc-type="sds">
-                        <span class="text-sm">SDS (Güvenlik)</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="document_type[]" value="ce" class="accent-navy" data-doc-type="ce">
-                        <span class="text-sm">CE (Uygunluk)</span>
-                    </label>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-2">Doküman Türü <span class="text-red-500">*</span> <span class="text-gray-400 font-normal">(birden fazla seçilebilir)</span></label>
+                    <div class="flex flex-col gap-2" id="modal-doc-types">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" name="document_type[]" value="tds" class="accent-navy" data-doc-type="tds">
+                            <span class="text-sm">TDS (Teknik Veri)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" name="document_type[]" value="sds" class="accent-navy" data-doc-type="sds">
+                            <span class="text-sm">SDS (Güvenlik)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" name="document_type[]" value="ce" class="accent-navy" data-doc-type="ce">
+                            <span class="text-sm">CE (Uygunluk)</span>
+                        </label>
+                    </div>
+                    @error('document_type')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    @error('document_type.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
-                @error('document_type')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                @error('document_type.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+
+                <div class="flex flex-col">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Not (isteğe bağlı)</label>
+                    <textarea name="message"
+                              class="w-full flex-1 border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-navy transition-colors resize-none">{{ old('message') }}</textarea>
+                </div>
             </div>
 
-            <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Not (isteğe bağlı)</label>
-                <textarea name="message" rows="2"
-                          class="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-navy transition-colors resize-none">{{ old('message') }}</textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-full justify-center">
+            <button type="submit" class="btn btn-primary w-full justify-center mt-6">
                 Doküman Talep Et
             </button>
         </form>

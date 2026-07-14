@@ -58,14 +58,14 @@
         <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($children as $child)
             <a href="{{ route('finder.step', $child->slug) }}"
-               class="card p-6 group block text-center">
+               class="card p-6 group flex flex-col h-full text-center">
                 <h3 class="font-medium transition-colors" style="color: var(--color-navy);">
                     {{ $child->label }}
                 </h3>
                 @if ($child->description)
                 <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ $child->description }}</p>
                 @endif
-                <div class="mt-4 text-xs font-medium" style="color: var(--color-navy-40);">
+                <div class="mt-auto pt-4 text-xs font-medium" style="color: var(--color-navy-40);">
                     {{ $child->isLeaf() ? 'Ürünleri Gör →' : 'Devam Et →' }}
                 </div>
             </a>

@@ -39,13 +39,13 @@
     --text-h1:    52px;
     --text-h2:    36px;
     --text-h3:    24px;
-    --text-body:  15px;
-    --text-label: 11px;
+    --text-body:  18px;
+    --text-label: 12px;
 }
 
 /* ─── Base Stiller ──────────────────────────────────────────── */
 @layer base {
-    html { font-size: 15px; }
+    html { font-size: 18px; }
 
     body {
         font-family: var(--font-sans);
@@ -197,7 +197,7 @@
         position: sticky;
         top: 0;
         z-index: 50;
-        height: 56px;                      /* Brief §04: 56px */
+        height: 88px;                      /* Brief §04 taban değeri 56px idi, kullanıcı isteğiyle artırıldı */
         background-color: var(--color-navy);
         display: flex;
         align-items: center;
@@ -223,8 +223,8 @@
        zemininin gerçekten y=0'dan başlamasını, böylece nav'la baştan
        itibaren çakışmasını sağlıyoruz. */
     .hero-under-nav {
-        margin-top: -56px;
-        padding-top: 56px;
+        margin-top: -88px;
+        padding-top: 88px;
     }
 
     /* Hero görselinin üst kenarındaki karartma — şeffaf nav'ın arkasında
@@ -262,6 +262,7 @@
     .card-stripe--stone  { border-top: 3px solid var(--color-stone); }
     .card-stripe--marine { border-top: 3px solid var(--color-marine); }
 
+
     /* ── AKEMI Referans Kartı (Brief §09 — #A55182 kenarlık) ── */
     .card-akemi {
         border: 2px solid #A55182;
@@ -292,7 +293,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 15px;
+        font-size: var(--text-body);
         font-weight: 500;
         color: var(--color-navy);
         user-select: none;

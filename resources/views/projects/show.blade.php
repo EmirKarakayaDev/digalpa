@@ -85,7 +85,7 @@
 
             {{-- Sidebar --}}
             <aside class="lg:w-[35%] shrink-0">
-                <div class="sticky top-[72px] space-y-4">
+                <div class="sticky top-[104px] space-y-4">
 
                     {{-- Kullanılan Ürünler — gerçek ürüne bağlıysa linkli, değilse serbest metin
                          (Brief §09: "sidebar ürün sayfalarına link veriyor") --}}

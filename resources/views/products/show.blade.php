@@ -270,7 +270,7 @@
 
             {{-- Sağ: %35 Sticky Sidebar --}}
             <aside class="lg:w-[35%] shrink-0">
-                <div class="sticky top-[72px] space-y-4">
+                <div class="sticky top-[104px] space-y-4">
 
                     {{-- Birincil Aksiyonlar --}}
                     <div class="border border-gray-100 rounded-sm p-5 space-y-2">

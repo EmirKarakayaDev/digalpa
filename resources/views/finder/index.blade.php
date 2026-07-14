@@ -54,7 +54,7 @@
         <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse ($rootNodes as $node)
             <a href="{{ route('finder.step', $node->slug) }}"
-               class="card p-6 group block text-center">
+               class="card p-6 group flex flex-col h-full text-center">
                 @if ($node->segment)
                 <div class="mb-3 flex justify-center">
                     <x-segment-badge :segment="$node->segment" />
@@ -66,7 +66,7 @@
                 @if ($node->description)
                 <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ $node->description }}</p>
                 @endif
-                <div class="mt-4 text-xs font-medium" style="color: var(--color-navy-40);">Seç →</div>
+                <div class="mt-auto pt-4 text-xs font-medium" style="color: var(--color-navy-40);">Seç →</div>
             </a>
             @empty
             <div class="col-span-3 text-center py-16 text-gray-400">

@@ -40,7 +40,7 @@
 
             {{-- Sidebar --}}
             <aside class="lg:w-[35%] shrink-0">
-                <div class="sticky top-[72px] space-y-4">
+                <div class="sticky top-[104px] space-y-4">
 
                     {{-- İçindekiler — JS ile doldurulur, başlık < 2 ise gizli kalır --}}
                     <div id="toc-card" class="border border-gray-100 rounded-sm p-5 hidden">

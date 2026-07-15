@@ -6,8 +6,7 @@
     {{-- Başlık --}}
     <div class="bg-gray-50 border-b border-gray-100">
         <div class="container-content py-10">
-            <x-segment-badge :segment="$segment" />
-            <h1 class="mt-3 text-4xl">{{ $segment->name }}</h1>
+            <h1 class="text-4xl">{{ $segment->name }}</h1>
             @if ($segment->description)
             <p class="text-gray-600 mt-2 max-w-xl">{{ $segment->description }}</p>
             @endif

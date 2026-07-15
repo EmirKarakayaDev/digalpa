@@ -135,8 +135,6 @@
         </div>
     </div>
 
-    <x-document-request-modal />
-
     <script>
     (function () {
         var article = document.querySelector('article');

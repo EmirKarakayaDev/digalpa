@@ -340,22 +340,4 @@
         </div>
     </div>
 
-    {{-- Mobil Sticky CTA Bandı (lg'de gizli) --}}
-    <div class="fixed bottom-0 left-0 right-0 z-40 lg:hidden border-t border-gray-200 bg-white px-4 py-3 flex gap-2 shadow-lg">
-        <a href="{{ route('contact.index') }}?konu=teklif&urun={{ urlencode($product->name) }}"
-           class="btn btn-primary flex-1 justify-center text-sm py-2.5">
-            Teklif İste
-        </a>
-        @if ($product->tds_file || $product->sds_file || $product->ce_file)
-        <button onclick="openDocModal({{ $product->id }}, '{{ addslashes($product->name) }}', {{ \Illuminate\Support\Js::from($product->availableDocTypes()) }})"
-                class="btn btn-secondary text-sm py-2.5 px-4">
-            TDS/SDS/CE
-        </button>
-        @endif
-        <a href="{{ route('contact.index') }}"
-           class="btn btn-secondary text-sm py-2.5 px-4">
-            Destek
-        </a>
-    </div>
-
 </x-layouts.app>

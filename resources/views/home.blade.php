@@ -137,7 +137,7 @@
                 </div>
 
                 {{-- Sağ: 3 Adım Kartı --}}
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="rounded-sm p-5 text-center" style="background-color: rgba(255,255,255,0.1);">
                         <div class="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-sm mx-auto mb-3"
                              style="background-color: rgba(255,255,255,0.15); color: #fff;">1</div>
@@ -180,7 +180,7 @@
                 <a href="{{ route('finder.index') }}" class="btn btn-ghost hidden sm:inline-flex">Tümünü Bul →</a>
             </div>
 
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 @foreach ($featuredProducts as $product)
                 <div class="card card-stripe--{{ $product->categories->first()?->segment?->color_key ?? 'stone' }} group">
                     <a href="{{ route('products.show', $product->slug) }}" class="block">
